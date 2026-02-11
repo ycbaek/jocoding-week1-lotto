@@ -1,1 +1,153 @@
-/* Add styles here */
+body {
+    font-family: sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+#generate-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#generate-btn:hover {
+    background-color: #0056b3;
+}
+
+#lotto-numbers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    min-height: 50px;
+}
+
+.lotto-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.group-label {
+    min-width: 70px;
+    text-align: right;
+    font-weight: bold;
+    color: #333;
+}
+
+.group-balls {
+    display: flex;
+    gap: 10px;
+}
+
+.ball {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    font-size: 18px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.ball.yellow { background-color: #fbc400; color: black; }
+.ball.blue { background-color: #69c8f2; }
+.ball.red { background-color: #ff7272; }
+.ball.grey { background-color: #aaa; }
+.ball.green { background-color: #b0d840; }
+
+.ball.mega {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    background: linear-gradient(135deg, #ffcc00, #ff6600);
+    border: 3px solid #cc5200;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    box-shadow: 0 0 12px rgba(255, 153, 0, 0.6), 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #666;
+    padding: 0 2px;
+}
+
+/* Section Divider */
+.section-divider {
+    border: none;
+    border-top: 2px dashed #ccc;
+    margin: 40px auto;
+    width: 60%;
+}
+
+/* Lunch Menu Recommendation */
+#lunch-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #ff6b35;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#lunch-btn:hover {
+    background-color: #e55a2b;
+}
+
+#lunch-result {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    min-height: 50px;
+}
+
+.lunch-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 300px;
+}
+
+.lunch-emoji {
+    font-size: 60px;
+    margin-bottom: 12px;
+}
+
+.lunch-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.lunch-desc {
+    font-size: 14px;
+    color: #777;
+}
+
+.pop-in {
+    animation: popIn 0.4s ease-out;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    70% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
