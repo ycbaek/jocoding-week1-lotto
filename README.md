@@ -1,1 +1,1 @@
-A simple HTML/JS/CSS starter template
+# jocoding-week1-lotto
