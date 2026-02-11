@@ -54,8 +54,10 @@
     <h1>Dog or Cat?</h1>
     <p class="tm-subtitle">Use your webcam to find out if it's a dog or a cat!</p>
     <button id="tm-start-btn" onclick="initTeachableMachine()">Start Camera</button>
+    <div id="tm-countdown"></div>
     <div id="webcam-container"></div>
     <div id="label-container"></div>
+    <div id="tm-result"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
@@ -65,8 +67,11 @@
 
         async function initTeachableMachine() {
             const btn = document.getElementById('tm-start-btn');
+            const countdownEl = document.getElementById('tm-countdown');
+            const resultEl = document.getElementById('tm-result');
             btn.disabled = true;
             btn.textContent = 'Loading model...';
+            resultEl.innerHTML = '';
 
             const modelURL = TM_URL + "model.json";
             const metadataURL = TM_URL + "metadata.json";
@@ -78,48 +83,67 @@
             webcam = new tmImage.Webcam(300, 300, flip);
             await webcam.setup();
             await webcam.play();
-            window.requestAnimationFrame(loop);
 
-            document.getElementById("webcam-container").appendChild(webcam.canvas);
+            const container = document.getElementById("webcam-container");
+            container.innerHTML = '';
+            container.appendChild(webcam.canvas);
+
             labelContainer = document.getElementById("label-container");
             labelContainer.innerHTML = '';
-            for (let i = 0; i < maxPredictions; i++) {
-                const div = document.createElement("div");
-                div.classList.add("tm-label");
-                labelContainer.appendChild(div);
+
+            // 3-second countdown
+            btn.textContent = 'Analyzing...';
+            for (let sec = 3; sec >= 1; sec--) {
+                countdownEl.textContent = sec;
+                countdownEl.className = 'tm-countdown-active';
+                await new Promise(r => setTimeout(r, 1000));
+                webcam.update();
             }
+            countdownEl.textContent = '';
+            countdownEl.className = '';
 
-            btn.textContent = 'Camera Active';
-        }
-
-        async function loop() {
+            // Final prediction after 3 seconds
             webcam.update();
-            await predict();
-            window.requestAnimationFrame(loop);
-        }
-
-        async function predict() {
             const prediction = await tmModel.predict(webcam.canvas);
 
             let best = { className: '', probability: 0 };
             for (let i = 0; i < maxPredictions; i++) {
                 const p = prediction[i];
+                if (p.probability > best.probability) best = p;
+            }
+
+            // Show result bars
+            for (let i = 0; i < maxPredictions; i++) {
+                const p = prediction[i];
                 const pct = Math.round(p.probability * 100);
-                const bar = labelContainer.childNodes[i];
-                bar.innerHTML = `
+                const div = document.createElement("div");
+                div.classList.add("tm-label");
+                div.innerHTML = `
                     <span class="tm-class-name">${p.className}</span>
                     <div class="tm-bar-track">
                         <div class="tm-bar-fill" style="width: ${pct}%"></div>
                     </div>
                     <span class="tm-pct">${pct}%</span>
                 `;
-                if (p.probability > best.probability) best = p;
+                labelContainer.appendChild(div);
             }
 
+            // Show final verdict
+            const bestPct = Math.round(best.probability * 100);
+            const isDog = best.className.toLowerCase().includes('dog');
+            resultEl.innerHTML = `<span class="tm-result-text ${isDog ? 'dog' : 'cat'}">${isDog ? '🐶' : '🐱'} It's a ${best.className}! (${bestPct}%)</span>`;
+            resultEl.querySelector('.tm-result-text').classList.add('pop-in');
+
+            // Border color on webcam
             const canvas = document.querySelector('#webcam-container canvas');
             if (canvas) {
-                canvas.className = best.className.toLowerCase().includes('dog') ? 'tm-border-dog' : 'tm-border-cat';
+                canvas.className = isDog ? 'tm-border-dog' : 'tm-border-cat';
             }
+
+            // Stop webcam
+            webcam.stop();
+            btn.disabled = false;
+            btn.textContent = 'Try Again';
         }
     </script>
 
