@@ -79,6 +79,71 @@ document.addEventListener('DOMContentLoaded', () => {
         lunchResultEl.querySelector('.lunch-card').classList.add('pop-in');
     });
 
+    // Review Form
+    const stars = document.querySelectorAll('#star-rating .star');
+    const ratingInput = document.getElementById('review-rating-value');
+    let selectedRating = 0;
+
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            selectedRating = parseInt(star.dataset.value);
+            ratingInput.value = selectedRating;
+            stars.forEach(s => {
+                s.classList.toggle('active', parseInt(s.dataset.value) <= selectedRating);
+            });
+        });
+
+        star.addEventListener('mouseenter', () => {
+            const hoverVal = parseInt(star.dataset.value);
+            stars.forEach(s => {
+                s.classList.toggle('active', parseInt(s.dataset.value) <= hoverVal);
+            });
+        });
+    });
+
+    document.getElementById('star-rating').addEventListener('mouseleave', () => {
+        stars.forEach(s => {
+            s.classList.toggle('active', parseInt(s.dataset.value) <= selectedRating);
+        });
+    });
+
+    const reviewForm = document.getElementById('review-form');
+    const reviewStatus = document.getElementById('review-status');
+
+    reviewForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('review-submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+        reviewStatus.textContent = '';
+        reviewStatus.className = '';
+
+        try {
+            const response = await fetch(reviewForm.action, {
+                method: 'POST',
+                body: new FormData(reviewForm),
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                reviewStatus.textContent = 'Thank you for your review!';
+                reviewStatus.className = 'success';
+                reviewForm.reset();
+                selectedRating = 0;
+                stars.forEach(s => s.classList.remove('active'));
+            } else {
+                reviewStatus.textContent = 'Something went wrong. Please try again.';
+                reviewStatus.className = 'error';
+            }
+        } catch {
+            reviewStatus.textContent = 'Network error. Please try again.';
+            reviewStatus.className = 'error';
+        }
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Review';
+    });
+
     function generateLottoNumbers() {
         const numbers = new Set();
         while (numbers.size < 6) {

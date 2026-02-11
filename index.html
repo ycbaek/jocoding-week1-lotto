@@ -18,6 +18,37 @@
     <button id="lunch-btn">Recommend Lunch</button>
     <div id="lunch-result"></div>
 
+    <hr class="section-divider">
+
+    <h1>Leave a Review</h1>
+    <form id="review-form" action="https://formspree.io/f/meelezzr" method="POST">
+        <div class="form-group">
+            <label for="review-name">Name</label>
+            <input type="text" id="review-name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+            <label for="review-email">Email</label>
+            <input type="email" id="review-email" name="email" placeholder="Your email" required>
+        </div>
+        <div class="form-group">
+            <label for="review-rating">Rating</label>
+            <div class="star-rating" id="star-rating">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+            <input type="hidden" id="review-rating-value" name="rating" value="">
+        </div>
+        <div class="form-group">
+            <label for="review-message">Review</label>
+            <textarea id="review-message" name="message" rows="4" placeholder="Write your review here..." required></textarea>
+        </div>
+        <button type="submit" id="review-submit-btn">Submit Review</button>
+    </form>
+    <div id="review-status"></div>
+
     <script src="main.js"></script>
 </body>
 </html>
