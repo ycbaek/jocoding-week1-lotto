@@ -1,66 +1,107 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fun daily tools: generate lotto numbers, get lunch recommendations, identify dogs and cats with AI, and more. Free online utility toolkit.">
     <meta name="google-adsense-account" content="ca-pub-6454293227427570">
-    <title>Lotto Number Generator</title>
+    <title>Daily Toolkit - Lotto, Lunch, AI & More</title>
     <link rel="stylesheet" href="style.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6454293227427570"
          crossorigin="anonymous"></script>
 </head>
 <body>
-    <h1>Lotto Number Recommendation</h1>
-    <button id="generate-btn">Generate Numbers</button>
-    <div id="lotto-numbers"></div>
 
-    <hr class="section-divider">
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Daily Toolkit</a>
+        <ul class="nav-links">
+            <li><a href="#lotto">Lotto</a></li>
+            <li><a href="#lunch">Lunch</a></li>
+            <li><a href="#dog-or-cat">Dog or Cat</a></li>
+            <li><a href="#review">Review</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
 
-    <h1>Lunch Menu Recommendation</h1>
-    <button id="lunch-btn">Recommend Lunch</button>
-    <div id="lunch-result"></div>
+    <header class="hero">
+        <h1>Welcome to Daily Toolkit</h1>
+        <p>Your go-to collection of fun and useful everyday tools. Generate lucky lotto numbers, discover what to eat for lunch, identify animals with AI, and share your feedback — all in one place.</p>
+    </header>
 
-    <hr class="section-divider">
+    <main>
 
-    <h1>Leave a Review</h1>
-    <form id="review-form" action="https://formspree.io/f/meelezzr" method="POST">
-        <div class="form-group">
-            <label for="review-name">Name</label>
-            <input type="text" id="review-name" name="name" placeholder="Your name" required>
+        <section id="lotto" class="content-section">
+            <h2>Lotto Number Recommendation</h2>
+            <p class="section-desc">Feeling lucky? Our random lotto number generator creates two unique groups of numbers for you. Each group contains 5 numbers (1-49) and 1 mega ball (1-25), color-coded for easy reading. Try your luck today!</p>
+            <button id="generate-btn">Generate Numbers</button>
+            <div id="lotto-numbers"></div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section id="lunch" class="content-section">
+            <h2>Lunch Menu Recommendation</h2>
+            <p class="section-desc">Can't decide what to eat? Let us pick for you! Our lunch recommender randomly selects from a curated list of 15 popular dishes — from Korean classics like Bibimbap and Kimchi Jjigae to international favorites like Pasta Carbonara and Sushi. Click the button and end your lunch dilemma.</p>
+            <button id="lunch-btn">Recommend Lunch</button>
+            <div id="lunch-result"></div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section id="dog-or-cat" class="content-section">
+            <h2>Dog or Cat? AI Image Classifier</h2>
+            <p class="section-desc">Powered by Google's Teachable Machine, this AI tool uses your webcam to determine whether it's looking at a dog or a cat. Simply start the camera, hold your pet (or a photo) in front of the webcam, and the model will analyze the image after a 3-second countdown to give you its best prediction with a confidence score.</p>
+            <button id="tm-start-btn" onclick="initTeachableMachine()">Start Camera</button>
+            <div id="tm-countdown"></div>
+            <div id="webcam-container"></div>
+            <div id="label-container"></div>
+            <div id="tm-result"></div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section id="review" class="content-section">
+            <h2>Leave a Review</h2>
+            <p class="section-desc">We'd love to hear your thoughts! Rate your experience with our tools and leave a message. Your feedback helps us improve and add new features. All reviews are greatly appreciated.</p>
+            <form id="review-form" action="https://formspree.io/f/meelezzr" method="POST">
+                <div class="form-group">
+                    <label for="review-name">Name</label>
+                    <input type="text" id="review-name" name="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-email">Email</label>
+                    <input type="email" id="review-email" name="email" placeholder="Your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-rating">Rating</label>
+                    <div class="star-rating" id="star-rating">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <input type="hidden" id="review-rating-value" name="rating" value="">
+                </div>
+                <div class="form-group">
+                    <label for="review-message">Review</label>
+                    <textarea id="review-message" name="message" rows="4" placeholder="Write your review here..." required></textarea>
+                </div>
+                <button type="submit" id="review-submit-btn">Submit Review</button>
+            </form>
+            <div id="review-status"></div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="about.html">About</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="#review">Contact</a>
         </div>
-        <div class="form-group">
-            <label for="review-email">Email</label>
-            <input type="email" id="review-email" name="email" placeholder="Your email" required>
-        </div>
-        <div class="form-group">
-            <label for="review-rating">Rating</label>
-            <div class="star-rating" id="star-rating">
-                <span class="star" data-value="1">&#9733;</span>
-                <span class="star" data-value="2">&#9733;</span>
-                <span class="star" data-value="3">&#9733;</span>
-                <span class="star" data-value="4">&#9733;</span>
-                <span class="star" data-value="5">&#9733;</span>
-            </div>
-            <input type="hidden" id="review-rating-value" name="rating" value="">
-        </div>
-        <div class="form-group">
-            <label for="review-message">Review</label>
-            <textarea id="review-message" name="message" rows="4" placeholder="Write your review here..." required></textarea>
-        </div>
-        <button type="submit" id="review-submit-btn">Submit Review</button>
-    </form>
-    <div id="review-status"></div>
-
-    <hr class="section-divider">
-
-    <h1>Dog or Cat?</h1>
-    <p class="tm-subtitle">Use your webcam to find out if it's a dog or a cat!</p>
-    <button id="tm-start-btn" onclick="initTeachableMachine()">Start Camera</button>
-    <div id="tm-countdown"></div>
-    <div id="webcam-container"></div>
-    <div id="label-container"></div>
-    <div id="tm-result"></div>
+        <p class="footer-copy">&copy; 2026 Daily Toolkit. All rights reserved.</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
